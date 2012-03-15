@@ -1,6 +1,14 @@
 <!doctype html>
-<html ng-app>
+<html lang="en" ng-app>
 <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
+    <title>Student Grouping App</title>
+    <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/print.css" media="print" rel="stylesheet" type="text/css" />
+    <!--[if IE]>
+      <link href="/stylesheets/ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
+    <![endif]-->
     <script src="lib/angular.js"></script>
     <script src="src/grouper.js"></script>
     <script src="src/app.js"></script>
@@ -9,23 +17,38 @@
     <header><h1>Student Grouping App</h1></header>
     <div class="student-list">
         <h2>Students</h2>
-        <form name="studentListForm">
-            <div class="student" ng-repeat="student in students">
-                <input ng-model="student.name" type="text" required autofocus></input> <button ng-click="deleteStudent(student)" tabindex="-1" >Delete</button>
-            </div>
-            <button href="" ng-click="addStudent()">Add Student</button>
-            <button href="" ng-click="groupStudents(students, numGroups)" disabled="{{studentListForm.$invalid}}">Group Now</button>
+        <form name="GroupingOptions">
+            <label for="numGroups">Number of Groups: </label><input type="number" ng-model="numGroups" name="numGroups"></input>
         </form>
-        {{studentListForm.$invalid}}
-    <pre>Students: {{studentListForm | json}}</pre>
+        <form name="studentListForm">
+            <button href="" ng-click="addStudent()">Add Student</button>
+            <div class="student" ng-repeat="student in students" ng-form name="studentForm">
+                <input ng-model="student.name" name="student" type="text" required autofocus></input> <button ng-click="deleteStudent(student)" tabindex="-1" >Delete</button>
+                <span ng-show="studentForm.student.$error.required">Student name is required</span>
+            </div>
+        </form>
+    </div>
+    <div class="keepapart-list">
+        <h2>Students to Keep Apart</h2>
+        <form name="keepApartListForm">
+            <button href="" ng-click="addKeepApartPair()">Add Pair</button>
+            <div class="student-pair" ng-repeat="pair in keepApartPairs" ng-form name="pairForm">
+                <select name="left" ng-model="pair[0]" ng-options="student.name for student in students">
+                    <option value="">-- Select a student --</option>
+                </select>
+                <select name="right" ng-model="pair[1]" ng-options="student.name for student in otherStudents(pair[0], $index)">
+                    <option value="">-- Select a student --</option>
+                </select>
+                <button ng-click="removePair(pair)">Remove</button>
+            </div>
+        </form>
     </div>
     <div class="groups">
+    <button href="" ng-click="groupStudents(students, numGroups, keepApartPairs)" disabled="{{studentListForm.$invalid}}">Group Now</button>
         <h2>Groups</h2>
-        <form name="GroupingOptions">
-            <label for="numGroups">Number of Groups: </label><input type="number" ng-model="numGroups" name="numGroups">
         <div class="group" ng-repeat="group in groups">
-            <h3>{{group.name}}</h3>
-            <div class="student" ng-repeat="student in group">{{student}}
+            <h3>Group {{$index+1}}</h3>
+            <div class="student" ng-repeat="student in group">{{student}}</div>
         </div>
     </div>
 </body>
