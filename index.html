@@ -1,0 +1,32 @@
+<!doctype html>
+<html ng-app>
+<head>
+    <script src="lib/angular.js"></script>
+    <script src="src/grouper.js"></script>
+    <script src="src/app.js"></script>
+</head>
+<body ng-controller="StudentListCtrl">
+    <header><h1>Student Grouping App</h1></header>
+    <div class="student-list">
+        <h2>Students</h2>
+        <form name="studentListForm">
+            <div class="student" ng-repeat="student in students">
+                <input ng-model="student.name" type="text" required autofocus></input> <button ng-click="deleteStudent(student)" tabindex="-1" >Delete</button>
+            </div>
+            <button href="" ng-click="addStudent()">Add Student</button>
+            <button href="" ng-click="groupStudents(students, numGroups)" disabled="{{studentListForm.$invalid}}">Group Now</button>
+        </form>
+        {{studentListForm.$invalid}}
+    <pre>Students: {{studentListForm | json}}</pre>
+    </div>
+    <div class="groups">
+        <h2>Groups</h2>
+        <form name="GroupingOptions">
+            <label for="numGroups">Number of Groups: </label><input type="number" ng-model="numGroups" name="numGroups">
+        <div class="group" ng-repeat="group in groups">
+            <h3>{{group.name}}</h3>
+            <div class="student" ng-repeat="student in group">{{student}}
+        </div>
+    </div>
+</body>
+</html>
