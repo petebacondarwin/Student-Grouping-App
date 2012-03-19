@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
     <title>Student Grouping App</title>
+    <link href='http://fonts.googleapis.com/css?family=Happy+Monkey' rel='stylesheet' type='text/css'>
     <link href="stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
     <link href="stylesheets/print.css" media="print" rel="stylesheet" type="text/css" />
     <!--[if IE]>
@@ -14,41 +15,45 @@
     <script src="src/app.js"></script>
 </head>
 <body ng-controller="StudentListCtrl">
-    <header><h1>Student Grouping App</h1></header>
-    <div class="student-list">
-        <h2>Students</h2>
-        <form name="GroupingOptions">
-            <label for="numGroups">Number of Groups: </label><input type="number" ng-model="numGroups" name="numGroups"></input>
-        </form>
-        <form name="studentListForm">
+    <header><h1>Teachers' Friend - Group 'Em!</h1></header>
+    <form name="studentListForm">
+        <div class="student-list">
+            <h2>Students</h2>
             <button href="" ng-click="addStudent()">Add Student</button>
             <div class="student" ng-repeat="student in students" ng-form name="studentForm">
                 <input ng-model="student.name" name="student" type="text" required autofocus></input> <button ng-click="deleteStudent(student)" tabindex="-1" >Delete</button>
-                <span ng-show="studentForm.student.$error.required">Student name is required</span>
             </div>
-        </form>
-    </div>
-    <div class="keepapart-list">
-        <h2>Students to Keep Apart</h2>
-        <form name="keepApartListForm">
+        </div>
+        <div class="keepapart-list">
+            <h2>Students to Keep Apart</h2>
             <button href="" ng-click="addKeepApartPair()">Add Pair</button>
             <div class="student-pair" ng-repeat="pair in keepApartPairs" ng-form name="pairForm">
-                <select name="left" ng-model="pair[0]" ng-options="student.name for student in students">
+                <select name="left" ng-model="pair[0]" ng-options="student.name for student in students" required>
                     <option value="">-- Select a student --</option>
                 </select>
-                <select name="right" ng-model="pair[1]" ng-options="student.name for student in otherStudents(pair[0], $index)">
+                <select name="right" ng-model="pair[1]" ng-options="student.name for student in otherStudents(pair[0], $index)" required>
                     <option value="">-- Select a student --</option>
                 </select>
                 <button ng-click="removePair(pair)">Remove</button>
             </div>
+        </div>
+    </form>
+    <div class="doGrouping">
+        <h2>Group Students</h2>
+        <form name="GroupingOptions">
+        <button href="" ng-click="groupStudents(students, numGroups, keepApartPairs)" disabled="{{formsAreInvalid()}}">Group Into :</button> <input type="number" ng-model="numGroups" name="numGroups"></input> <label for="numGroups">Groups</label>
         </form>
     </div>
-    <div class="groups">
-    <button href="" ng-click="groupStudents(students, numGroups, keepApartPairs)" disabled="{{studentListForm.$invalid}}">Group Now</button>
-        <h2>Groups</h2>
-        <div class="group" ng-repeat="group in groups">
-            <h3>Group {{$index+1}}</h3>
-            <div class="student" ng-repeat="student in group">{{student}}</div>
+    <div ng-switch on="showGroups()" class="groupHolder">
+        <ul ng-switch-when="Groups Found" class="groups">
+            <li class="group" ng-repeat="group in groups">
+                <h3>Group {{$index+1}}</h3>
+                <div class="student" ng-repeat="student in group">{{student}}</div>
+            </li>
+        </ul>
+        <div ng-switch-when="Not Possible" class="groups">
+            <h2>No Group Possible</h2>
+            <p>Could not find a group that fitted with the Keep Apart contraints - try relaxing which students must be kept apart.</p>
         </div>
     </div>
 </body>

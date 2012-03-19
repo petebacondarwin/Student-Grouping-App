@@ -1,205 +1,114 @@
 (function() {
-  var Grouper, Relations, Set;
+  var createRelationMap, groupBy, groupInto, possibleChoices, _base, _base2, _base3, _base4, _base5, _base6, _base7;
 
-  Set = (function() {
-
-    function Set(elems) {
-      var elem, _i, _len;
-      if (elems == null) elems = [];
-      this.hash = {};
-      for (_i = 0, _len = elems.length; _i < _len; _i++) {
-        elem = elems[_i];
-        this.hash[elem] = true;
-      }
-    }
-
-    Set.prototype.add = function(elem) {
-      return this.hash[elem] = true;
+  if ((_base = Array.prototype).copy == null) {
+    _base.copy = function() {
+      return this.slice();
     };
+  }
 
-    Set.prototype.remove = function(elem) {
-      return delete this.hash[elem];
+  if ((_base2 = Array.prototype).remove == null) {
+    _base2.remove = function(item) {
+      this.splice(this.indexOf(item), 1);
+      return this;
     };
+  }
 
-    Set.prototype.has = function(elem) {
-      return this.hash[elem] != null;
+  if ((_base3 = Array.prototype).has == null) {
+    _base3.has = function(item) {
+      return this.indexOf(item) !== -1;
     };
+  }
 
-    Set.prototype.union = function(set2) {
-      var elem, set, _i, _len, _ref;
-      set = new Set();
-      for (elem in this.hash) {
-        set.add(elem);
-      }
-      _ref = set2.to_array();
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        elem = _ref[_i];
-        set.add(elem);
-      }
-      return set;
-    };
-
-    Set.prototype.intersection = function(set2) {
-      var elem, set;
-      set = new Set();
-      for (elem in this.hash) {
-        if (set2.has(elem)) set.add(elem);
-      }
-      return set;
-    };
-
-    Set.prototype.shareElements = function(set2) {
-      var elem;
-      for (elem in this.hash) {
-        if (set2.has(elem)) return true;
-      }
-      return false;
-    };
-
-    Set.prototype.minus = function(set2) {
-      var elem, set;
-      set = new Set();
-      for (elem in this.hash) {
-        if (!set2.has(elem)) set.add(elem);
-      }
-      return set;
-    };
-
-    Set.prototype.is_subset_of = function(set2) {
-      var elem;
-      for (elem in this.hash) {
-        if (!set2.has(elem)) return false;
-      }
-      return true;
-    };
-
-    Set.prototype.equals = function(set2) {
-      return this.is_subset_of(set2) && set2.is_subset_of(this);
-    };
-
-    Set.prototype.to_array = function() {
-      var elem, _results;
-      _results = [];
-      for (elem in this.hash) {
-        _results.push(elem);
-      }
-      return _results;
-    };
-
-    Set.prototype.each = function(f) {
-      var elem, _results;
-      _results = [];
-      for (elem in this.hash) {
-        _results.push(f(elem));
-      }
-      return _results;
-    };
-
-    Set.prototype.to_string = function() {
-      return this.to_array();
-    };
-
-    Set.prototype.size = function() {
-      return this.to_array().length;
-    };
-
-    Set.prototype.random = function() {
-      var array;
-      array = this.to_array();
-      return array[Math.floor(Math.random() * array.length)];
-    };
-
-    Set.prototype.copy = function() {
-      return new Set(this.to_array());
-    };
-
-    Set.prototype.empty = function() {
-      return this.size() === 0;
-    };
-
-    return Set;
-
-  })();
-
-  Relations = (function() {
-
-    function Relations(pairs) {
-      var pair, _base, _base2, _i, _len, _name, _name2, _ref, _ref2;
-      this.map = {};
-      for (_i = 0, _len = pairs.length; _i < _len; _i++) {
-        pair = pairs[_i];
-        ((_ref = (_base = this.map)[_name = pair[0]]) != null ? _ref : _base[_name] = new Set()).add(pair[1]);
-        ((_ref2 = (_base2 = this.map)[_name2 = pair[1]]) != null ? _ref2 : _base2[_name2] = new Set()).add(pair[0]);
-      }
-    }
-
-    Relations.prototype.relations = function(a) {
-      var _ref;
-      return (_ref = this.map[a]) != null ? _ref : new Set();
-    };
-
-    Relations.prototype.areRelated = function(a, b) {
-      var _ref, _ref2;
-      return (_ref = (_ref2 = this.map[a]) != null ? _ref2.has(b) : void 0) != null ? _ref : false;
-    };
-
-    return Relations;
-
-  })();
-
-  Grouper = (function() {
-
-    function Grouper() {}
-
-    Grouper.prototype.groupBy = function(size, students, separatePairs) {
-      return this.groupInto(this.students.size() / size, students, separatePairs);
-    };
-
-    Grouper.prototype.groupInto = function(numGroups, studentsList, separatePairs) {
-      var chooseFrom, group, groupIndex, groups, i, separate, student, students;
-      if (separatePairs == null) separatePairs = [];
-      separate = new Relations(separatePairs);
-      groups = (function() {
-        var _results;
+  if ((_base4 = Array.prototype).intersection == null) {
+    _base4.intersection = function(other) {
+      var item, _i, _len, _results;
+      if (other != null) {
         _results = [];
-        for (i = 1; 1 <= numGroups ? i <= numGroups : i >= numGroups; 1 <= numGroups ? i++ : i--) {
-          _results.push(new Set());
+        for (_i = 0, _len = other.length; _i < _len; _i++) {
+          item = other[_i];
+          if (this.has(item)) _results.push(item);
         }
         return _results;
-      })();
-      students = new Set(studentsList);
-      groupIndex = 0;
-      while (!students.empty()) {
-        group = groups[groupIndex];
-        chooseFrom = this.possibleChoices(students, group, separate);
-        student = chooseFrom.random();
-        group.add(student);
-        students.remove(student);
-        groupIndex = (groupIndex + 1) % numGroups;
+      } else {
+        return [];
       }
-      return groups;
     };
+  }
 
-    Grouper.prototype.possibleChoices = function(students, group, separate) {
-      var choices, separateFromStudent, student, _i, _len, _ref;
-      choices = new Set();
-      _ref = students.to_array();
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        student = _ref[_i];
-        separateFromStudent = separate.relations(student);
-        if (!group.shareElements(separateFromStudent)) choices.add(student);
-      }
-      return choices;
+  if ((_base5 = Array.prototype).overlap == null) {
+    _base5.overlap = function(other) {
+      var _ref;
+      return ((_ref = this.intersection(other)) != null ? _ref.length : void 0) > 0;
     };
+  }
 
-    return Grouper;
+  if ((_base6 = Array.prototype).random == null) {
+    _base6.random = function() {
+      return this[Math.floor(Math.random() * this.length)];
+    };
+  }
 
-  })();
+  if ((_base7 = Array.prototype).add == null) {
+    _base7.add = function(item) {
+      if (!this.has(item)) return this.push(item);
+    };
+  }
+
+  createRelationMap = function(pairs) {
+    var map, pair, _i, _len, _name, _name2, _ref, _ref2;
+    map = {};
+    for (_i = 0, _len = pairs.length; _i < _len; _i++) {
+      pair = pairs[_i];
+      ((_ref = map[_name = pair[0]]) != null ? _ref : map[_name] = []).add(pair[1]);
+      ((_ref2 = map[_name2 = pair[1]]) != null ? _ref2 : map[_name2] = []).add(pair[0]);
+    }
+    return map;
+  };
+
+  possibleChoices = function(students, group, keepApartFrom) {
+    var choices, student, studentsToKeepApart, _i, _len;
+    choices = [];
+    for (_i = 0, _len = students.length; _i < _len; _i++) {
+      student = students[_i];
+      studentsToKeepApart = keepApartFrom[student];
+      if (!group.overlap(studentsToKeepApart)) choices.add(student);
+    }
+    return choices;
+  };
+
+  groupInto = function(numGroups, studentsList, keepApartPairs) {
+    var chooseFrom, group, groupIndex, groups, i, keepApartFrom, student, students;
+    if (keepApartPairs == null) keepApartPairs = [];
+    keepApartFrom = createRelationMap(keepApartPairs);
+    groups = [];
+    for (i = 0; 0 <= numGroups ? i < numGroups : i > numGroups; 0 <= numGroups ? i++ : i--) {
+      groups[i] = [];
+    }
+    students = studentsList.copy();
+    groupIndex = 0;
+    while (students.length > 0) {
+      group = groups[groupIndex];
+      chooseFrom = possibleChoices(students, group, keepApartFrom);
+      if (chooseFrom.length === 0) return null;
+      student = chooseFrom.random();
+      group.add(student);
+      students.remove(student);
+      groupIndex = (groupIndex + 1) % numGroups;
+    }
+    console.dir(groups);
+    return groups;
+  };
+
+  groupBy = function(groupSize, students, keepApartPairs) {
+    return groupInto(students.length / groupSize, students, keepApartPairs);
+  };
 
   this.GroupApp = {
-    Set: Set,
-    Relations: Relations,
-    Grouper: Grouper
+    groupBy: groupBy,
+    groupInto: groupInto,
+    createRelationMap: createRelationMap,
+    possibleChoices: possibleChoices
   };
 
 }).call(this);

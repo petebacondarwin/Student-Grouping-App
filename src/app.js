@@ -1,18 +1,4 @@
 (function() {
-  var _base, _base2;
-
-  if ((_base = Array.prototype).copy == null) {
-    _base.copy = function() {
-      return this.slice();
-    };
-  }
-
-  if ((_base2 = Array.prototype).remove == null) {
-    _base2.remove = function(item) {
-      this.splice(this.indexOf(item), 1);
-      return this;
-    };
-  }
 
   this.StudentListCtrl = function($scope) {
     var val;
@@ -24,8 +10,12 @@
         name: ''
       });
     };
+    $scope.formsAreInvalid = function() {
+      console.log($scope.keepApartForm.$invalid);
+      return $scope.studentListForm.$invalid;
+    };
     $scope.groupStudents = function(students, numGroups, keepApartPairs) {
-      var g, group, groups, pair, student, studentNames;
+      var attemptsLeft, pair, student, studentNames;
       studentNames = (function() {
         var _i, _len, _results;
         _results = [];
@@ -44,17 +34,24 @@
         }
         return _results;
       })();
-      g = new GroupApp.Grouper();
-      groups = g.groupInto(numGroups, studentNames, keepApartPairs);
-      return $scope.groups = (function() {
-        var _i, _len, _results;
-        _results = [];
-        for (_i = 0, _len = groups.length; _i < _len; _i++) {
-          group = groups[_i];
-          _results.push(group.to_array());
+      attemptsLeft = 100;
+      $scope.groups = null;
+      while (!(($scope.groups != null) || attemptsLeft === 0)) {
+        $scope.groups = GroupApp.groupInto(numGroups, studentNames, keepApartPairs);
+        attemptsLeft -= 1;
+      }
+      return console.log("Attempts: " + (100 - attemptsLeft));
+    };
+    $scope.showGroups = function() {
+      if ($scope.groups != null) {
+        if ($scope.groups.length > 0) {
+          return 'Groups Found';
+        } else {
+          return 'Empty';
         }
-        return _results;
-      })();
+      } else {
+        return 'Not Possible';
+      }
     };
     $scope.addKeepApartPair = function() {
       return $scope.keepApartPairs.push([null, null]);
@@ -75,6 +72,7 @@
       }
       return students;
     };
+    $scope.studentUniqueSet = {};
     $scope.students = (function() {
       var _i, _len, _ref, _results;
       _ref = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
