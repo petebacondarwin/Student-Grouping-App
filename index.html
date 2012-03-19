@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" ng-app>
+<html lang="en" ng-app="GroupEmApp">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
@@ -12,6 +12,7 @@
     <![endif]-->
     <script src="lib/angular.js"></script>
     <script src="src/grouper.js"></script>
+    <script src="src/directives.js"></script>
     <script src="src/app.js"></script>
 </head>
 <body ng-controller="StudentListCtrl">
@@ -21,7 +22,7 @@
             <h2>Students</h2>
             <button href="" ng-click="addStudent()">Add Student</button>
             <div class="student" ng-repeat="student in students" ng-form name="studentForm">
-                <input ng-model="student.name" name="student" type="text" required autofocus></input> <button ng-click="deleteStudent(student)" tabindex="-1" >Delete</button>
+                {{$index+1}}: <input ng-model="student.name" name="student" type="text" required unique-in="studentUniqueSet" autofocus></input> <button ng-click="deleteStudent(student)" tabindex="-1" >Delete</button>
             </div>
         </div>
         <div class="keepapart-list">
@@ -38,17 +39,19 @@
             </div>
         </div>
     </form>
-    <div class="doGrouping">
+    <div class="grouping-controls">
         <h2>Group Students</h2>
-        <form name="GroupingOptions">
-        <button href="" ng-click="groupStudents(students, numGroups, keepApartPairs)" disabled="{{formsAreInvalid()}}">Group Into :</button> <input type="number" ng-model="numGroups" name="numGroups"></input> <label for="numGroups">Groups</label>
+        <form>
+        <label for="numGroups">Number of Groups: </label> <input type="number" ng-model="numGroups" min="1" max="{{students.length - 1}}" ng-change="numGroupsChanged()" ng-model-instant></input>
+        <label for="numGroups">Groups Size:</label> <input type="number" ng-model="groupSize" min="1" max="{{students.length - 1}}"  ng-change="groupSizeChanged()" ng-model-instant></input>
+            <button href="" ng-click="groupStudents(students, numGroups, keepApartPairs)" disabled="{{formsAreInvalid()}}">Group Now</button>
         </form>
     </div>
-    <div ng-switch on="showGroups()" class="groupHolder">
+    <div ng-switch on="showGroups()" class="group-holder">
         <ul ng-switch-when="Groups Found" class="groups">
             <li class="group" ng-repeat="group in groups">
                 <h3>Group {{$index+1}}</h3>
-                <div class="student" ng-repeat="student in group">{{student}}</div>
+                <div class="student" ng-repeat="student in group">{{student.name}}</div>
             </li>
         </ul>
         <div ng-switch-when="Not Possible" class="groups">

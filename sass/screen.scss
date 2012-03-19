@@ -46,7 +46,7 @@ h3 {
     width: 50%;
 }
 
-.doGrouping {
+.grouping-controls {
     padding-top: 1.5em;
     clear: left;
     button, input, label {
@@ -54,10 +54,14 @@ h3 {
     }
 }
 
-.groupHolder {
+.group-holder {
     .group {
         display: inline-block;
         vertical-align: top;
         padding: 1em;
     }
+}
+
+input[name].ng-invalid {
+    border-color: #FA787E;
 }

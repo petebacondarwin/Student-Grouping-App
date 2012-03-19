@@ -1,4 +1,4 @@
-angular.module('pbd', []).
+angular.module('GroupEm.Directives', []).
 directive('uniqueIn', ()->
   priority: -1
   require: 'ngModel'
@@ -7,7 +7,7 @@ directive('uniqueIn', ()->
     previous = null
 
     validator = (value)->
-      if value !== previous
+      if value != previous
         if previous
           uniqueSet[previous] = (uniqueSet[previous] || 1) - 1
         if value
@@ -27,3 +27,4 @@ directive('uniqueIn', ()->
       ()-> uniqueSet[ctrl.$viewValue] == 1,
       (value)-> ctrl.$setValidity('unique', value)
     )
+)

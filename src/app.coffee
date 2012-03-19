@@ -1,3 +1,5 @@
+angular.module('GroupEmApp', ['GroupEm.Directives'])
+
 this.StudentListCtrl = ($scope)->
 
   $scope.deleteStudent = (student)->
@@ -7,8 +9,13 @@ this.StudentListCtrl = ($scope)->
     $scope.students.push(name:'')
 
   $scope.formsAreInvalid = ()->
-    console.log $scope.keepApartForm.$invalid
     $scope.studentListForm.$invalid
+
+  $scope.numGroupsChanged = ()->
+    $scope.groupSize = Math.round($scope.students.length/$scope.numGroups)
+
+  $scope.groupSizeChanged = (inverse)->
+    $scope.numGroups = Math.round($scope.students.length/$scope.groupSize)
 
   $scope.groupStudents = (students, numGroups, keepApartPairs)->
     studentNames = (student.name for student in students)
@@ -17,9 +24,11 @@ this.StudentListCtrl = ($scope)->
     attemptsLeft = 100
     $scope.groups = null
     until $scope.groups? or attemptsLeft == 0
-      $scope.groups = (student for student in $scope.students
-        when student.name == groupedStudent for groupStudent in GroupApp.groupInto(numGroups, studentNames, keepApartPairs)
-      )
+      groups = GroupApp.groupInto(numGroups, studentNames, keepApartPairs)
+      if groups?
+        $scope.groups = []
+        for group in groups
+          $scope.groups.push(student for student in students when student.name in group)
       attemptsLeft -= 1
     console.log "Attempts: #{100-attemptsLeft}"
 
@@ -52,5 +61,6 @@ this.StudentListCtrl = ($scope)->
   $scope.studentUniqueSet = {}
   $scope.students = ( name: val for val in ['A','B','C','D','E','F','G','H'])
   $scope.numGroups = 3
+  $scope.numGroupsChanged()
   $scope.groups = []
   $scope.keepApartPairs = []
