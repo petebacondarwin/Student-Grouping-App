@@ -42,8 +42,8 @@
     <div class="grouping-controls">
         <h2>Group Students</h2>
         <form>
-        <label for="numGroups">Number of Groups: </label> <input type="number" ng-model="numGroups" min="1" max="{{students.length - 1}}" ng-change="numGroupsChanged()" ng-model-instant></input>
-        <label for="numGroups">Groups Size:</label> <input type="number" ng-model="groupSize" min="1" max="{{students.length - 1}}"  ng-change="groupSizeChanged()" ng-model-instant></input>
+        <label for="numGroups">Number of Groups: </label> <input type="number" ng-model="numGroups" min="1" max="{{students.length}}" ng-change="numGroupsChanged()" ng-model-instant></input>
+        <label for="numGroups">Groups Size:</label> <input type="number" ng-model="groupSize" min="1" max="{{students.length}}"  ng-change="groupSizeChanged()" ng-model-instant></input>
             <button href="" ng-click="groupStudents(students, numGroups, keepApartPairs)" disabled="{{formsAreInvalid()}}">Group Now</button>
         </form>
     </div>
