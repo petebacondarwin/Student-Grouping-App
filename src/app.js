@@ -1,4 +1,7 @@
 (function() {
+  var __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+
+  angular.module('GroupEmApp', ['GroupEm.Directives']);
 
   this.StudentListCtrl = function($scope) {
     var val;
@@ -11,11 +14,16 @@
       });
     };
     $scope.formsAreInvalid = function() {
-      console.log($scope.keepApartForm.$invalid);
       return $scope.studentListForm.$invalid;
     };
+    $scope.numGroupsChanged = function() {
+      return $scope.groupSize = Math.round($scope.students.length / $scope.numGroups);
+    };
+    $scope.groupSizeChanged = function(inverse) {
+      return $scope.numGroups = Math.round($scope.students.length / $scope.groupSize);
+    };
     $scope.groupStudents = function(students, numGroups, keepApartPairs) {
-      var attemptsLeft, pair, student, studentNames;
+      var attemptsLeft, group, groups, pair, student, studentNames, _i, _len;
       studentNames = (function() {
         var _i, _len, _results;
         _results = [];
@@ -37,7 +45,24 @@
       attemptsLeft = 100;
       $scope.groups = null;
       while (!(($scope.groups != null) || attemptsLeft === 0)) {
-        $scope.groups = GroupApp.groupInto(numGroups, studentNames, keepApartPairs);
+        groups = GroupApp.groupInto(numGroups, studentNames, keepApartPairs);
+        if (groups != null) {
+          $scope.groups = [];
+          for (_i = 0, _len = groups.length; _i < _len; _i++) {
+            group = groups[_i];
+            $scope.groups.push((function() {
+              var _j, _len2, _ref, _results;
+              _results = [];
+              for (_j = 0, _len2 = students.length; _j < _len2; _j++) {
+                student = students[_j];
+                if (_ref = student.name, __indexOf.call(group, _ref) >= 0) {
+                  _results.push(student);
+                }
+              }
+              return _results;
+            })());
+          }
+        }
         attemptsLeft -= 1;
       }
       return console.log("Attempts: " + (100 - attemptsLeft));
@@ -86,6 +111,7 @@
       return _results;
     })();
     $scope.numGroups = 3;
+    $scope.numGroupsChanged();
     $scope.groups = [];
     return $scope.keepApartPairs = [];
   };

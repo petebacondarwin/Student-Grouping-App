@@ -114,18 +114,23 @@ h3 {
 }
 
 /* line 49, ../sass/screen.scss */
-.doGrouping {
+.grouping-controls {
   padding-top: 1.5em;
   clear: left;
 }
 /* line 52, ../sass/screen.scss */
-.doGrouping button, .doGrouping input, .doGrouping label {
+.grouping-controls button, .grouping-controls input, .grouping-controls label {
   font-size: 1.2em;
 }
 
 /* line 58, ../sass/screen.scss */
-.groupHolder .group {
+.group-holder .group {
   display: inline-block;
   vertical-align: top;
   padding: 1em;
+}
+
+/* line 65, ../sass/screen.scss */
+input[name].ng-invalid {
+  border-color: #FA787E;
 }
