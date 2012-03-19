@@ -17,7 +17,9 @@ this.StudentListCtrl = ($scope)->
     attemptsLeft = 100
     $scope.groups = null
     until $scope.groups? or attemptsLeft == 0
-      $scope.groups = GroupApp.groupInto(numGroups, studentNames, keepApartPairs)
+      $scope.groups = (student for student in $scope.students
+        when student.name == groupedStudent for groupStudent in GroupApp.groupInto(numGroups, studentNames, keepApartPairs)
+      )
       attemptsLeft -= 1
     console.log "Attempts: #{100-attemptsLeft}"
 
