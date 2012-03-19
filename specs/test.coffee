@@ -1,59 +1,64 @@
-  g = students = group = keepApart = null
+  g = students = group = keepApartPairs = null
 
   beforeEach ->
     students = ['Jo Bloggs','Annie Other','Brian Berry','Peter Problem','Jake Rake','Mark Blackboard','Jeremy Strong','Ella Rose']
-    group = new GroupApp.Set(['Jo Bloggs', 'Annie Other'])
-    keepApart = [
+    group = ['Jo Bloggs', 'Annie Other']
+    keepApartPairs = [
       ['Jo Bloggs','Brian Berry']
       ['Annie Other','Ella Rose']
     ]
 
-  describe 'Set.shareElements', ->
-    set1 = set2 = set3 = set4 = null
-    beforeEach ->
-      set1 = new GroupApp.Set(['A', 'B', 'C'])
-      set2 = new GroupApp.Set(['B', 'D'])
-      set3 = new GroupApp.Set(['D', 'E'])
-      set4 = new GroupApp.Set([])
+  describe 'Array', ->
+    describe 'add', ->
+      it 'adds a new item into the array', ->
+        a = []
+        a.add('a')
+        expect(a.length).toEqual(1)
 
-    it 'returns true if the two sets have common elements', ->
-      expect(set1.shareElements(set1)).toBeTruthy()
-      expect(set1.shareElements(set2)).toBeTruthy()
-      expect(set2.shareElements(set3)).toBeTruthy()
-    it 'returns false if the two sets do not have common elements', ->
-      expect(set1.shareElements(set3)).toBeFalsy()
-      expect(set1.shareElements(set4)).toBeFalsy()
-    it 'returns false if the first set is empty', ->
-      expect(set4.shareElements(set1)).toBeFalsy()
+    describe 'overlap', ->
+      group1 = group2 = group3 = group4 = null
+      beforeEach ->
+        group1 = ['A', 'B', 'C']
+        group2 = ['B', 'D']
+        group3 = ['D', 'E']
+        group4 = []
 
-  describe 'Set.random', ->
-    it 'returns a random element from the set', ->
-      set1 = new GroupApp.Set(['A', 'B', 'C', 'D', 'E'])
-      random = set1.random()
-      console.log random
-      expect(set1.has(random)).toBeTruthy()
+      it 'returns true if the two groups have common elements', ->
+        expect(group1.overlap(group1)).toBeTruthy()
+        expect(group1.overlap(group2)).toBeTruthy()
+        expect(group2.overlap(group3)).toBeTruthy()
+      it 'returns false if the two groups do not have common elements', ->
+        expect(group1.overlap(group3)).toBeFalsy()
+        expect(group1.overlap(group4)).toBeFalsy()
+      it 'returns false if the first group is empty', ->
+        expect(group4.overlap(group1)).toBeFalsy()
 
-  describe 'Relations.relations', ->
+    describe 'random', ->
+      it 'returns a random element from the group', ->
+        group1 = ['A', 'B', 'C', 'D', 'E']
+        random = group1.random()
+        expect(group1.has(random)).toBeTruthy()
+
+  describe 'createRelationMap', ->
     it 'Collects up pairs from the specified array', ->
-      r = new GroupApp.Relations(keepApart)
-      expect(r.areRelated('Jo Bloggs', 'Brian Berry')).toBeTruthy()
-      expect(r.relations('Jo Bloggs').size()).toBeGreaterThan(0)
-      expect(r.relations('Jo Bloggs').has('Brian Berry')).toBeTruthy()
+      relationMap = GroupApp.createRelationMap(keepApartPairs)
+      expect(relationMap['Jo Bloggs'].has('Brian Berry')).toBeTruthy()
+      expect(relationMap['Jo Bloggs'].length).toBeGreaterThan(0)
+      expect(relationMap['Brian Berry'].has('Jo Bloggs')).toBeTruthy()
 
-  describe 'Grouper.possibleChoices', ->
+  describe 'possibleChoices', ->
       it 'chooses students that are not to be separated', ->
-        g = new GroupApp.Grouper()
-        r = new GroupApp.Relations(keepApart)
-        expect(g.possibleChoices(new GroupApp.Set(students), group, r).empty()).toBeFalsy()
+        relationMap = GroupApp.createRelationMap(keepApartPairs)
+        choices = GroupApp.possibleChoices(students, group, relationMap)
+        expect(choices.length).toBeGreaterThan(0)
+
+      it 'returns an empty array if there are no possible choices', ->
+        relationMap = GroupApp.createRelationMap([['A','B'],['A','C']])
+        choices = GroupApp.possibleChoices(['A'], ['B','B'], relationMap)
+        expect(choices.length).toEqual(0)
 
     describe 'groupInto', ->
       it 'returns the specified number of groups', ->
-        g = new GroupApp.Grouper()
-        subGroups = g.groupInto(4, students, keepApart)
-        expect(subGroups.length).toEqual(4)
-        expect(subGroups[0].size()).toEqual(2)
-        console.dir subGroups
-#
-#    describe 'groupBy', ->
-#      it 'returns the number of groups that would take the specified number students', ->
-#        g = new GroupApp.Grouper()
+        groups = GroupApp.groupInto(4, students, keepApartPairs)
+        expect(groups.length).toEqual(4)
+        expect(groups[0].length).toEqual(2)

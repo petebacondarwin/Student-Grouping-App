@@ -5,12 +5,34 @@
 
 @import "compass/reset";
 
-h1 {
+$blue: #3D79D0;
+
+html * {
+    font-family: Happy Monkey;
+}
+
+body {
+    width: 960px;
+    margin: 50px auto 0px;
+    text-align: center;
+}
+
+header {
+    padding: 20px;
+    background: $blue;
+    color: white;
     font-size: 2em;
 }
+
 h2 {
-    margin-top: 0.5em;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
     font-size: 1.5em;
+}
+
+h3 {
+    font-size: 1.2em;
+    border-bottom: solid 1px $blue;
 }
 
 .student-list {
@@ -24,10 +46,18 @@ h2 {
     width: 50%;
 }
 
-.groups {
+.doGrouping {
+    padding-top: 1.5em;
     clear: left;
+    button, input, label {
+        font-size: 1.2em;
+    }
+}
+
+.groupHolder {
     .group {
-        float: left;
+        display: inline-block;
+        vertical-align: top;
         padding: 1em;
     }
 }

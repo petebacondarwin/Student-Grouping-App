@@ -1,21 +1,34 @@
-Array::copy ?= ()-> @slice()
-Array::remove ?= (item)-> @splice(@indexOf(item),1); @
-
 this.StudentListCtrl = ($scope)->
+
   $scope.deleteStudent = (student)->
     $scope.students.remove(student)
 
   $scope.addStudent = ()->
     $scope.students.push(name:'')
 
+  $scope.formsAreInvalid = ()->
+    console.log $scope.keepApartForm.$invalid
+    $scope.studentListForm.$invalid
+
   $scope.groupStudents = (students, numGroups, keepApartPairs)->
     studentNames = (student.name for student in students)
     keepApartPairs = ([pair[0].name, pair[1].name] for pair in keepApartPairs)
 
-    g = new GroupApp.Grouper()
-    groups = g.groupInto(numGroups, studentNames, keepApartPairs)
+    attemptsLeft = 100
+    $scope.groups = null
+    until $scope.groups? or attemptsLeft == 0
+      $scope.groups = GroupApp.groupInto(numGroups, studentNames, keepApartPairs)
+      attemptsLeft -= 1
+    console.log "Attempts: #{100-attemptsLeft}"
 
-    $scope.groups = (group.to_array() for group in groups)
+  $scope.showGroups = ()->
+    if $scope.groups?
+      if $scope.groups.length > 0
+        'Groups Found'
+      else
+        'Empty' 
+    else
+      'Not Possible'
 
   $scope.addKeepApartPair = ()->
     $scope.keepApartPairs.push([null,null])
@@ -34,6 +47,7 @@ this.StudentListCtrl = ($scope)->
     return students
 
   # Initialize the model
+  $scope.studentUniqueSet = {}
   $scope.students = ( name: val for val in ['A','B','C','D','E','F','G','H'])
   $scope.numGroups = 3
   $scope.groups = []

@@ -67,36 +67,65 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   display: block;
 }
 
-/* line 8, ../sass/screen.scss */
-h1 {
+/* line 10, ../sass/screen.scss */
+html * {
+  font-family: Happy Monkey;
+}
+
+/* line 14, ../sass/screen.scss */
+body {
+  width: 960px;
+  margin: 50px auto 0px;
+  text-align: center;
+}
+
+/* line 20, ../sass/screen.scss */
+header {
+  padding: 20px;
+  background: #3d79d0;
+  color: white;
   font-size: 2em;
 }
 
-/* line 11, ../sass/screen.scss */
+/* line 27, ../sass/screen.scss */
 h2 {
-  margin-top: 0.5em;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
   font-size: 1.5em;
 }
 
-/* line 16, ../sass/screen.scss */
+/* line 33, ../sass/screen.scss */
+h3 {
+  font-size: 1.2em;
+  border-bottom: solid 1px #3d79d0;
+}
+
+/* line 38, ../sass/screen.scss */
 .student-list {
   float: left;
   width: 50%;
   padding-bottom: 0.5em;
 }
 
-/* line 22, ../sass/screen.scss */
+/* line 44, ../sass/screen.scss */
 .keepapart-list {
   float: left;
   width: 50%;
 }
 
-/* line 27, ../sass/screen.scss */
-.groups {
+/* line 49, ../sass/screen.scss */
+.doGrouping {
+  padding-top: 1.5em;
   clear: left;
 }
-/* line 29, ../sass/screen.scss */
-.groups .group {
-  float: left;
+/* line 52, ../sass/screen.scss */
+.doGrouping button, .doGrouping input, .doGrouping label {
+  font-size: 1.2em;
+}
+
+/* line 58, ../sass/screen.scss */
+.groupHolder .group {
+  display: inline-block;
+  vertical-align: top;
   padding: 1em;
 }
