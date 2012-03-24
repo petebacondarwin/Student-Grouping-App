@@ -68,69 +68,176 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 
 /* line 10, ../sass/screen.scss */
-html * {
-  font-family: Happy Monkey;
+html {
+  background-color: white;
 }
 
 /* line 14, ../sass/screen.scss */
-body {
-  width: 960px;
-  margin: 50px auto 0px;
-  text-align: center;
+html * {
+  font-family: Arial;
 }
 
-/* line 20, ../sass/screen.scss */
-header {
+/* line 18, ../sass/screen.scss */
+body {
+  width: 960px;
+  margin: 0px auto;
+  padding: 50px 20px;
+  text-align: center;
+  background-color: #ffbb74;
+  *zoom: 1;
+  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FFFFA348', endColorstr='#FFFFBB74');
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffa348), color-stop(100%, #ffbb74));
+  background-image: -webkit-linear-gradient(top, #ffa348 0%, #ffbb74 100%);
+  background-image: -moz-linear-gradient(top, #ffa348 0%, #ffbb74 100%);
+  background-image: -o-linear-gradient(top, #ffa348 0%, #ffbb74 100%);
+  background-image: -ms-linear-gradient(top, #ffa348 0%, #ffbb74 100%);
+  background-image: linear-gradient(top, #ffa348 0%, #ffbb74 100%);
+}
+
+/* line 29, ../sass/screen.scss */
+h1, h2, h3 {
+  font-family: Happy Monkey;
+  font-weight: bold;
+  text-shadow: -2px 0 2px #ff6600, 0 2px 2px #ff6600, 2px 2px 0 #ff6600, 0 -2px 2px #ff6600;
+}
+
+/* line 36, ../sass/screen.scss */
+header h1 {
   padding: 20px;
-  background: #3d79d0;
   color: white;
   font-size: 2em;
 }
 
-/* line 27, ../sass/screen.scss */
+/* line 42, ../sass/screen.scss */
 h2 {
+  display: inline-block;
   margin-top: 1em;
   margin-bottom: 0.5em;
+  padding: 10px 20px;
   font-size: 1.5em;
 }
 
-/* line 33, ../sass/screen.scss */
+/* line 50, ../sass/screen.scss */
 h3 {
   font-size: 1.2em;
   border-bottom: solid 1px #3d79d0;
 }
 
-/* line 38, ../sass/screen.scss */
+/* line 55, ../sass/screen.scss */
+.rounded {
+  color: white;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+  border: solid 2px white;
+  background-color: #ffd5a2;
+  *zoom: 1;
+  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FFFFD5A2', endColorstr='#FFFFB971');
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffd5a2), color-stop(50%, #ffbc75), color-stop(50%, #ffa348), color-stop(100%, #ffb971));
+  background-image: -webkit-linear-gradient(top, #ffd5a2 0%, #ffbc75 50%, #ffa348 50%, #ffb971 100%);
+  background-image: -moz-linear-gradient(top, #ffd5a2 0%, #ffbc75 50%, #ffa348 50%, #ffb971 100%);
+  background-image: -o-linear-gradient(top, #ffd5a2 0%, #ffbc75 50%, #ffa348 50%, #ffb971 100%);
+  background-image: -ms-linear-gradient(top, #ffd5a2 0%, #ffbc75 50%, #ffa348 50%, #ffb971 100%);
+  background-image: linear-gradient(top, #ffd5a2 0%, #ffbc75 50%, #ffa348 50%, #ffb971 100%);
+}
+
+/* line 66, ../sass/screen.scss */
+button {
+  color: white;
+  font-weight: bold;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+  padding: 2px 10px;
+}
+/* line 72, ../sass/screen.scss */
+button.add {
+  border: solid 2px #92BC23;
+  background-color: #BBE230;
+  *zoom: 1;
+  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FFBBE230', endColorstr='#FFFFB971');
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #bbe230), color-stop(50%, #9ec32f), color-stop(50%, #79af03), color-stop(100%, #9dc232));
+  background-image: -webkit-linear-gradient(top, #bbe230 0%, #9ec32f 50%, #79af03 50%, #9dc232 100%);
+  background-image: -moz-linear-gradient(top, #bbe230 0%, #9ec32f 50%, #79af03 50%, #9dc232 100%);
+  background-image: -o-linear-gradient(top, #bbe230 0%, #9ec32f 50%, #79af03 50%, #9dc232 100%);
+  background-image: -ms-linear-gradient(top, #bbe230 0%, #9ec32f 50%, #79af03 50%, #9dc232 100%);
+  background-image: linear-gradient(top, #bbe230 0%, #9ec32f 50%, #79af03 50%, #9dc232 100%);
+}
+/* line 81, ../sass/screen.scss */
+button.delete {
+  border: none;
+  margin-left: 10px;
+  background-color: #F7867A;
+  *zoom: 1;
+  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FFF7867A', endColorstr='#FFA72E27');
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f7867a), color-stop(100%, #a72e27));
+  background-image: -webkit-linear-gradient(top, #f7867a 0%, #a72e27 100%);
+  background-image: -moz-linear-gradient(top, #f7867a 0%, #a72e27 100%);
+  background-image: -o-linear-gradient(top, #f7867a 0%, #a72e27 100%);
+  background-image: -ms-linear-gradient(top, #f7867a 0%, #a72e27 100%);
+  background-image: linear-gradient(top, #f7867a 0%, #a72e27 100%);
+}
+/* line 90, ../sass/screen.scss */
+button.action {
+  border: solid 2px #377EA3;
+  background-color: #F7867A;
+  *zoom: 1;
+  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FF549ABE', endColorstr='#FFFFB971');
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #549abe), color-stop(50%, #549abe), color-stop(50%, #488eb2), color-stop(100%, #488eb2));
+  background-image: -webkit-linear-gradient(top, #549abe 0%, #549abe 50%, #488eb2 50%, #488eb2 100%);
+  background-image: -moz-linear-gradient(top, #549abe 0%, #549abe 50%, #488eb2 50%, #488eb2 100%);
+  background-image: -o-linear-gradient(top, #549abe 0%, #549abe 50%, #488eb2 50%, #488eb2 100%);
+  background-image: -ms-linear-gradient(top, #549abe 0%, #549abe 50%, #488eb2 50%, #488eb2 100%);
+  background-image: linear-gradient(top, #549abe 0%, #549abe 50%, #488eb2 50%, #488eb2 100%);
+}
+
+/* line 99, ../sass/screen.scss */
+label {
+  color: #BA0000;
+  text-shadow: 0.1em 0.1em 0.2em white;
+  margin-right: 10px;
+}
+
+/* line 105, ../sass/screen.scss */
 .student-list {
   float: left;
   width: 50%;
   padding-bottom: 0.5em;
 }
 
-/* line 44, ../sass/screen.scss */
+/* line 111, ../sass/screen.scss */
+.student, .student-pair {
+  margin-top: 10px;
+}
+
+/* line 115, ../sass/screen.scss */
 .keepapart-list {
   float: left;
   width: 50%;
 }
 
-/* line 49, ../sass/screen.scss */
+/* line 120, ../sass/screen.scss */
 .grouping-controls {
   padding-top: 1.5em;
   clear: left;
 }
-/* line 52, ../sass/screen.scss */
+/* line 123, ../sass/screen.scss */
 .grouping-controls button, .grouping-controls input, .grouping-controls label {
   font-size: 1.2em;
 }
 
-/* line 58, ../sass/screen.scss */
+/* line 129, ../sass/screen.scss */
 .group-holder .group {
   display: inline-block;
   vertical-align: top;
   padding: 1em;
 }
 
-/* line 65, ../sass/screen.scss */
+/* line 136, ../sass/screen.scss */
 input[name].ng-invalid {
   border-color: #FA787E;
 }

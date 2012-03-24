@@ -2,31 +2,48 @@
  * In this file you should write your main styles. (or centralize your imports)
  * Import this file using the following HTML or equivalent:
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
-
+@import "compass";
 @import "compass/reset";
 
 $blue: #3D79D0;
 
+html {
+    background-color: white;
+}
+
 html * {
-    font-family: Happy Monkey;
+    font-family: Arial;
 }
 
 body {
     width: 960px;
-    margin: 50px auto 0px;
+    margin: 0px auto;
+    padding: 50px 20px;
     text-align: center;
+    // needs latest Compass, add '@import "compass"' to your scss
+    background-color: #ffbb74; // Old browsers
+    @include filter-gradient(#ffa348, #ffbb74, vertical); // IE6-9
+    @include background-image(linear-gradient(top, #ffa348 0%,#ffbb74 100%));
 }
 
-header {
+h1,h2,h3 {
+    font-family: Happy Monkey;
+    font-weight: bold;
+
+    text-shadow: -2px 0 2px #FF6600, 0 2px 2px #FF6600, 2px 2px 0 #FF6600, 0 -2px 2px #FF6600;
+}
+
+header h1 {
     padding: 20px;
-    background: $blue;
     color: white;
     font-size: 2em;
 }
 
 h2 {
+    display: inline-block;
     margin-top: 1em;
     margin-bottom: 0.5em;
+    padding: 10px 20px;
     font-size: 1.5em;
 }
 
@@ -35,10 +52,64 @@ h3 {
     border-bottom: solid 1px $blue;
 }
 
+.rounded {
+    color: white;
+    @include border-radius(10px);
+    border: solid 2px white;
+
+    // needs latest Compass, add '@import "compass"' to your scss
+    background-color: #ffd5a2; // Old browsers
+    @include filter-gradient(#ffd5a2, #ffb971, vertical); // IE6-9
+    @include background-image(linear-gradient(top, #ffd5a2 0%,#ffbc75 50%,#ffa348 50%,#ffb971 100%));
+}
+
+button {
+    color: white;
+    font-weight: bold;
+    @include border-radius(10px);
+    padding: 2px 10px;
+
+    &.add {
+        border: solid 2px #92BC23;
+
+        // needs latest Compass, add '@import "compass"' to your scss
+        background-color: #BBE230; // Old browsers
+        @include filter-gradient(#BBE230, #ffb971, vertical); // IE6-9
+        @include background-image(linear-gradient(top, #BBE230 0%,#9EC32F 50%,#79AF03 50%,#9DC232 100%));
+    }
+
+    &.delete {
+        border: none;
+        margin-left: 10px;
+        // needs latest Compass, add '@import "compass"' to your scss
+        background-color: #F7867A; // Old browsers
+        @include filter-gradient(#F7867A, #A72E27, vertical); // IE6-9
+        @include background-image(linear-gradient(top, #F7867A 0%,#A72E27 100%));
+    }
+
+    &.action {
+        border: solid 2px #377EA3;
+        // needs latest Compass, add '@import "compass"' to your scss
+        background-color: #F7867A; // Old browsers
+        @include filter-gradient(#549ABE, #ffb971, vertical); // IE6-9
+        @include background-image(linear-gradient(top, #549ABE 0%,#549ABE 50%,#488EB2 50%,#488EB2 100%));
+    }
+}
+
+label {
+    color: #BA0000;
+    text-shadow: 0.1em 0.1em 0.2em white;
+    margin-right: 10px;
+}
+
 .student-list {
     float: left;
     width: 50%;
     padding-bottom: 0.5em;
+}
+
+.student, .student-pair {
+    margin-top: 10px;
 }
 
 .keepapart-list {
