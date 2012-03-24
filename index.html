@@ -6,28 +6,26 @@
     <title>Student Grouping App</title>
     <link href='http://fonts.googleapis.com/css?family=Happy+Monkey' rel='stylesheet' type='text/css'>
     <link href="stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
-    <link href="stylesheets/print.css" media="print" rel="stylesheet" type="text/css" />
-    <!--[if IE]>
-      <link href="/stylesheets/ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
-    <![endif]-->
     <script src="lib/angular.js"></script>
     <script src="src/grouper.js"></script>
     <script src="src/directives.js"></script>
     <script src="src/app.js"></script>
 </head>
 <body ng-controller="StudentListCtrl">
-    <header><h1>Teachers' Friend - Group 'Em!</h1></header>
+    <header class="rounded"><h1>Teachers' Friend - Group 'Em!</h1></header>
     <form name="studentListForm">
         <div class="student-list">
-            <h2>Students</h2>
-            <button href="" ng-click="addStudent()">Add Student</button>
+            <h2 class="rounded">Students</h2>
+            <br/>
+            <button class="add" ng-click="addStudent()">Add Student</button>
             <div class="student" ng-repeat="student in students" ng-form name="studentForm">
-                {{$index+1}}: <input ng-model="student.name" name="student" type="text" required unique-in="studentUniqueSet" autofocus></input> <button ng-click="deleteStudent(student)" tabindex="-1" >Delete</button>
+                <label>{{$index+1}}</label><input ng-model="student.name" name="student" type="text" required unique-in="studentUniqueSet" autofocus></input> <button class="delete" ng-click="deleteStudent(student)" tabindex="-1" >Delete</button>
             </div>
         </div>
         <div class="keepapart-list">
-            <h2>Students to Keep Apart</h2>
-            <button href="" ng-click="addKeepApartPair()">Add Pair</button>
+            <h2 class="rounded">Students to Keep Apart</h2>
+            <br/>
+            <button class="add" ng-click="addKeepApartPair()">Add Pair</button>
             <div class="student-pair" ng-repeat="pair in keepApartPairs" ng-form name="pairForm">
                 <select name="left" ng-model="pair[0]" ng-options="student.name for student in students" required>
                     <option value="">-- Select a student --</option>
@@ -35,16 +33,16 @@
                 <select name="right" ng-model="pair[1]" ng-options="student.name for student in otherStudents(pair[0], $index)" required>
                     <option value="">-- Select a student --</option>
                 </select>
-                <button ng-click="removePair(pair)">Remove</button>
+                <button class="delete" ng-click="removePair(pair)">Remove</button>
             </div>
         </div>
     </form>
     <div class="grouping-controls">
-        <h2>Group Students</h2>
+        <h2 class="rounded">Group Students</h2>
         <form>
         <label for="numGroups">Number of Groups: </label> <input type="number" ng-model="numGroups" min="1" max="{{students.length}}" ng-change="numGroupsChanged()" ng-model-instant></input>
         <label for="numGroups">Groups Size:</label> <input type="number" ng-model="groupSize" min="1" max="{{students.length}}"  ng-change="groupSizeChanged()" ng-model-instant></input>
-            <button href="" ng-click="groupStudents(students, numGroups, keepApartPairs)" disabled="{{formsAreInvalid()}}">Group Now</button>
+            <button class="action" href="" ng-click="groupStudents(students, numGroups, keepApartPairs)" disabled="{{formsAreInvalid()}}">Group Now</button>
         </form>
     </div>
     <div ng-switch on="showGroups()" class="group-holder">
